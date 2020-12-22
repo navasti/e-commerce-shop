@@ -1,9 +1,14 @@
 import React from "react";
 
+// Components
+import Products from "./components/Products/Products";
+import Navbar from "./components/Navbar/Navbar";
+
 const App = () => {
   return (
     <div>
-      <h1>ecommerce</h1>
+      <Navbar />
+      <Products />
     </div>
   );
 };
