@@ -48,11 +48,11 @@ const PaymentForm = ({
         },
         fulfillment: {
           shipping_method: shippingData.shippingOption,
-          payment: {
-            gateway: "stripe",
-            stripe: {
-              payment_method_id: paymentMethod.id,
-            },
+        },
+        payment: {
+          gateway: "stripe",
+          stripe: {
+            payment_method_id: paymentMethod.id,
           },
         },
       };
