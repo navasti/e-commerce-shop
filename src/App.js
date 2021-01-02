@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { commerce } from "./lib/commerce";
-
+import { CssBaseline } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // Components
@@ -71,6 +71,7 @@ const App = () => {
   return (
     <Router>
       <div>
+        <CssBaseline />
         <Navbar totalItems={cart.total_items} />
         <Switch>
           <Route exact path="/">

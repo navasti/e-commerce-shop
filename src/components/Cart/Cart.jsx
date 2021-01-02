@@ -45,7 +45,7 @@ const Cart = ({
         ))}
       </Grid>
       <div className={classes.cardDetails}>
-        <Typography variant="h4">
+        <Typography variant="h5" style={{ marginBottom: "10px" }}>
           Subtotal: {cart.subtotal.formatted_with_code}
         </Typography>
         <div>
