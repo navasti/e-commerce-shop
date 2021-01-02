@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Paper, Stepper, Step, StepLabel, Typography } from "@material-ui/core";
+import {
+  Paper,
+  Stepper,
+  Step,
+  Button,
+  StepLabel,
+  Typography,
+  Divider,
+  CircularProgress,
+  CssBaseline,
+} from "@material-ui/core";
+import { Link } from "react-router-dom";
 import { commerce } from "../../../lib/commerce";
 
 // Styles
@@ -15,6 +26,7 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [shippingData, setShippingData] = useState({});
   const [checkoutToken, setCheckoutToken] = useState(null);
+  const [isFinished, setIsFinished] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {
@@ -24,7 +36,9 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
           type: "cart",
         });
         setCheckoutToken(token);
-      } catch (err) {}
+      } catch (error) {
+        console.log(error);
+      }
     };
     generateToken();
   }, [cart]);
@@ -37,7 +51,44 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
     nextStep();
   };
 
-  const Confirmation = () => <div>confirm</div>;
+  const timeout = () => {
+    setTimeout(() => {
+      setIsFinished(true);
+    }, 3000);
+  };
+
+  let Confirmation = () =>
+    isFinished ? (
+      <>
+        <div>
+          <Typography variant="h5">Thank you for your purchase</Typography>
+          <Divider className={classes.divider} />
+          <Typography varaint="h5">
+            Reference: {order.customer_reference}
+          </Typography>
+          <br />
+          <Button component={Link} to="/" variant="outlined" type="button">
+            Back to Home
+          </Button>
+        </div>
+      </>
+    ) : (
+      <div className={classes.spinner}>
+        <CircularProgress />
+      </div>
+    );
+
+  if (error) {
+    return (
+      <>
+        <Typography variant="h5"> Error: {error}</Typography>
+        <br />
+        <Button component={Link} variant="outlined" type="button">
+          Back to Home
+        </Button>
+      </>
+    );
+  }
 
   const Form = () =>
     activeStep === 0 ? (
@@ -49,11 +100,13 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
         backStep={backStep}
         onCaptureCheckout={onCaptureCheckout}
         nextStep={nextStep}
+        timeout={timeout}
       />
     );
 
   return (
     <>
+      <CssBaseline />
       <div className={classes.toolbar} />
       <main className={classes.layout}>
         <Paper className={classes.paper}>
